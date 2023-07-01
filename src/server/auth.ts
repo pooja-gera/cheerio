@@ -5,42 +5,77 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
+import bcrypt from "bcryptjs";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      role: string;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    role: string;
+  }
 }
 
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: token.sub,
       },
     }),
+  },
+  pages: {
+    signIn: "/auth/signin",
   },
   secret: env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-    }),
+    CredentialsProvider({
+      id: "credentials",
+      credentials: {},
+      name: "Credentials",
+      type: "credentials",
+      async authorize(credentials) {
+        const { email, password } = credentials as { email: string; password: string; };
+        if (!email || !password) {
+          return null;
+        } else {
+          const user = await prisma.user.findUnique({
+            where: { email },
+          });
+          if (!user) {
+            return null;
+          } else {
+            const comparePassword = await bcrypt.compare(password, user.password);
+            if (!comparePassword) {
+              return null;
+            } else {
+              return {
+                name: user.name,
+                email: user.email,
+                id: user.id,
+                role: user.role,
+                image: user.image,
+              }
+            }
+          }
+        }
+      },
+    })
   ],
 };
 
