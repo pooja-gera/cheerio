@@ -94,27 +94,27 @@ model generalDisclosureListedEntity {
 }
 
 model ManagementAndProcessDisclosuresListedEntity {
-  id                          String    @id @default(cuid())
-  isCoverEachPrinciple_1a     Boolean[] @default([false, false, false, false, false, false, false, false, false])
-  isProjectApprovedByBoard_1b Boolean[] @default([false, false, false, false, false, false, false, false, false])
-  policyWebLinks_1c String[] @default(["", "", "", "", "", "", "", "", ""])
-  isPolicyTranslated_2 Boolean[] @default([false, false, false, false, false, false, false, false, false])
-  isPolicyExtendValueChain_3 Boolean[] @default([false, false, false, false, false, false, false, false, false])
-  certificationsList_4 String[] @default(["", "", "", "", "", "", "", "", ""])
-  specificGoals_5 String[] @default(["", "", "", "", "", "", "", "", ""])
-  performance_6 String[] @default(["", "", "", "", "", "", "", "", ""])
-  directorStatement_7 String?
-  highestAuthority_8 String?
-  isSpecifiedCommitteePresent_9 Boolean?
-  performanceAgainstPolicies_10a Json?
-  compliance_10b Json?
-  isIndependentAssessment_11 Boolean[] @default([false, false, false, false, false, false, false, false, false])
+  id                                String    @id @default(cuid())
+  isCoverEachPrinciple_1a           Boolean[] @default([false, false, false, false, false, false, false, false, false])
+  isProjectApprovedByBoard_1b       Boolean[] @default([false, false, false, false, false, false, false, false, false])
+  policyWebLinks_1c                 String[]  @default(["", "", "", "", "", "", "", "", ""])
+  isPolicyTranslated_2              Boolean[] @default([false, false, false, false, false, false, false, false, false])
+  isPolicyExtendValueChain_3        Boolean[] @default([false, false, false, false, false, false, false, false, false])
+  certificationsList_4              String[]  @default(["", "", "", "", "", "", "", "", ""])
+  specificGoals_5                   String[]  @default(["", "", "", "", "", "", "", "", ""])
+  performance_6                     String[]  @default(["", "", "", "", "", "", "", "", ""])
+  directorStatement_7               String?
+  highestAuthority_8                String?
+  isSpecifiedCommitteePresent_9     Boolean?
+  performanceAgainstPolicies_10a    Json?
+  compliance_10b                    Json?
+  isIndependentAssessment_11        Boolean[] @default([false, false, false, false, false, false, false, false, false])
   isPrincipleMaterialToBusiness_12a Boolean[] @default([false, false, false, false, false, false, false, false, false])
-  isEntityAtStage_12b Boolean[] @default([false, false, false, false, false, false, false, false, false])
-  isResourcesAvailable_12c Boolean[] @default([false, false, false, false, false, false, false, false, false])
-  isNextYearPlan_12d Boolean[] @default([false, false, false, false, false, false, false, false, false])
-  otherReasons_12e String[] @default(["", "", "", "", "", "", "", "", ""])
-  report                                      report[]
+  isEntityAtStage_12b               Boolean[] @default([false, false, false, false, false, false, false, false, false])
+  isResourcesAvailable_12c          Boolean[] @default([false, false, false, false, false, false, false, false, false])
+  isNextYearPlan_12d                Boolean[] @default([false, false, false, false, false, false, false, false, false])
+  otherReasons_12e                  String[]  @default(["", "", "", "", "", "", "", "", ""])
+  report                            report[]
 }
 
 model ContactPerson {
@@ -131,11 +131,11 @@ enum BoundaryType {
 }
 
 model report {
-  id                              String                         @id @default(cuid())
-  sectionA                        generalDisclosureListedEntity? @relation(fields: [generalDisclosureListedEntityId], references: [id])
-  sectionB                       ManagementAndProcessDisclosuresListedEntity? @relation(fields: [managementAndProcessDisclosuresListedEntityId], references: [id])
+  id                                            String                                       @id @default(cuid())
+  sectionA                                      generalDisclosureListedEntity?               @relation(fields: [generalDisclosureListedEntityId], references: [id])
+  sectionB                                      ManagementAndProcessDisclosuresListedEntity? @relation(fields: [managementAndProcessDisclosuresListedEntityId], references: [id])
   managementAndProcessDisclosuresListedEntityId String?
-  generalDisclosureListedEntityId String?
-  user                            User?                          @relation(fields: [userId], references: [id])
-  userId                          String?
+  generalDisclosureListedEntityId               String?
+  user                                          User?                                        @relation(fields: [userId], references: [id])
+  userId                                        String?
 }
