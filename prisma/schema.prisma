@@ -58,26 +58,39 @@ model VerificationToken {
 }
 
 model generalDisclosureListedEntity {
-  id                      String         @id @default(cuid())
-  cin                     String?        @unique
-  name                    String?
-  yearOfIncorporation     Int?
-  registeredOfficeAddress String?
-  corporateAddress        String?
-  email                   String?
-  telephone               String?
-  website                 String?
-  financialYear           String?
-  stockExchanges          String?
-  paidUpCapital           String?
-  contactPerson           ContactPerson? @relation(fields: [contactPersonId], references: [id])
-  reportingBoundary       BoundaryType?
-  reportingBoundaryText   String?
-  contactPersonId         String
-  detailsOfBusinessActivities  Json?
-
-
-  report                  report[]
+  id                                          String         @id @default(cuid())
+  cin                                         String?        @unique
+  name                                        String?
+  yearOfIncorporation                         Int?
+  registeredOfficeAddress                     String?
+  corporateAddress                            String?
+  email                                       String?
+  telephone                                   String?
+  website                                     String?
+  financialYear                               String?
+  stockExchanges                              String?
+  paidUpCapital                               String?
+  contactPerson                               ContactPerson? @relation(fields: [contactPersonId], references: [id])
+  reportingBoundary                           BoundaryType?
+  reportingBoundaryText                       String?
+  contactPersonId                             String
+  detailsOfBusinessActivities                 Json?
+  productsServicesSoldByEntity                Json?
+  numOfLocWhereOffices                        Json?
+  marketsServedA                              Json?
+  marketsServedB                              String?
+  marketsServedC                              String?
+  detailsEndFinYrA                            Json?
+  detailsEndFinYrB                            Json?
+  participationOfWomen                        Json?
+  turnoverRate                                Json?
+  namesOfVentures                             Json?
+  csrDetailsI                                 Boolean?
+  csrDetailsII                                Int?
+  csrDetailsIII                               Int?
+  complaintsOnAnyPrinciples                   Json?
+  overviewOfMaterialResponsibleBusinessIssues Json?
+  report                                      report[]
 }
 
 model ContactPerson {
