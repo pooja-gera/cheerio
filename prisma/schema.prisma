@@ -46,6 +46,7 @@ model User {
   role          String
   accounts      Account[]
   sessions      Session[]
+  report        report[]
 }
 
 model VerificationToken {
@@ -54,4 +55,48 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model generalDisclosureListedEntity {
+  id                      String         @id @default(cuid())
+  cin                     String?        @unique
+  name                    String?
+  yearOfIncorporation     Int?
+  registeredOfficeAddress String?
+  corporateAddress        String?
+  email                   String?
+  telephone               String?
+  website                 String?
+  financialYear           String?
+  stockExchanges          String?
+  paidUpCapital           String?
+  contactPerson           ContactPerson? @relation(fields: [contactPersonId], references: [id])
+  reportingBoundary       BoundaryType?
+  reportingBoundaryText   String?
+  contactPersonId         String
+  detailsOfBusinessActivities  Json?
+
+
+  report                  report[]
+}
+
+model ContactPerson {
+  id                            String                          @id @default(cuid())
+  name                          String?
+  telephone                     String?
+  email                         String?
+  generalDisclosureListedEntity generalDisclosureListedEntity[]
+}
+
+enum BoundaryType {
+  STANDALONE
+  CONSOLIDATED
+}
+
+model report {
+  id                              String                         @id @default(cuid())
+  sectionA                        generalDisclosureListedEntity? @relation(fields: [generalDisclosureListedEntityId], references: [id])
+  generalDisclosureListedEntityId String?
+  user                            User?                          @relation(fields: [userId], references: [id])
+  userId                          String?
 }
