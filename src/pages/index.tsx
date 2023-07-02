@@ -1,6 +1,15 @@
 import Head from "next/head";
+import type {
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+  InferGetServerSidePropsType,
+} from "next";
+import { getServerAuthSession } from "@/server/auth";
+import { type Session } from "next-auth";
 
-export default function Home() {
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+export default function Home({ user }: Props) {
   return (
     <>
       <Head>
@@ -13,6 +22,29 @@ export default function Home() {
   );
 }
 
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+): Promise<
+  GetServerSidePropsResult<{
+    user: Session;
+  }>
+> => {
+  const session = await getServerAuthSession(context);
+  if (session) {
+    return {
+      props: {
+        user: session,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
+  }
+};
 // function AuthShowcase() {
 //   const { data: sessionData } = useSession();
 
