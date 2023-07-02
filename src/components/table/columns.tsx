@@ -72,11 +72,13 @@ export const columns: ColumnDef<User>[] = [
             <DropdownMenuItem
               onClick={() => void navigator.clipboard.writeText(user.id)}
             >
-              Copy user ID
+              Copy user email
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View user details</DropdownMenuItem>
+            <DropdownMenuItem>Edit SO</DropdownMenuItem>
+            <DropdownMenuItem className="bg-red-50 text-red-600 hover:bg-red-100">
+              Delete SO
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

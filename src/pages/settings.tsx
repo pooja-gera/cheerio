@@ -44,9 +44,9 @@ export default function Settings({ user }: Props) {
             <LuUsers className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
+            <div className="text-2xl font-bold">6</div>
             <p className="text-xs text-muted-foreground">
-              +20.1% from last month
+              Total SOs in the system
             </p>
           </CardContent>
         </Card>
@@ -56,9 +56,9 @@ export default function Settings({ user }: Props) {
             <LuUserCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">+2350</div>
+            <div className="text-2xl font-bold text-green-600">+5</div>
             <p className="text-xs text-muted-foreground">
-              +180.1% from last month
+              SOs currently active
             </p>
           </CardContent>
         </Card>
@@ -68,10 +68,8 @@ export default function Settings({ user }: Props) {
             <LuUserMinus className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">+12,234</div>
-            <p className="text-xs text-muted-foreground">
-              +19% from last month
-            </p>
+            <div className="text-2xl font-bold text-red-600">-1</div>
+            <p className="text-xs text-muted-foreground">SOs deleted</p>
           </CardContent>
         </Card>
       </div>
@@ -97,7 +95,7 @@ export const getServerSideProps = async (
   } else {
     return {
       redirect: {
-        destination: "/auth/login",
+        destination: "/auth/signin",
         permanent: false,
       },
     };

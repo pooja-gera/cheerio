@@ -13,6 +13,8 @@ import {
 import { HiSearch as SearchIcon } from "react-icons/hi";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 const nav = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
@@ -109,7 +111,7 @@ export default function DashboardWrapper({
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="space-y-1 px-2">
                   {navigation.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       className={cn(
@@ -129,9 +131,12 @@ export default function DashboardWrapper({
                         aria-hidden="true"
                       />
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
-                  <div className="group flex cursor-pointer items-center rounded-md px-2 py-2 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                  <div
+                    onClick={() => void signOut()}
+                    className="group flex cursor-pointer items-center rounded-md px-2 py-2 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  >
                     <HiLogout
                       className="mr-4 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -163,7 +168,7 @@ export default function DashboardWrapper({
             <div className="mt-5 flex flex-grow flex-col">
               <nav className="flex-1 space-y-1 bg-white px-2">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     className={cn(
@@ -183,9 +188,12 @@ export default function DashboardWrapper({
                       aria-hidden="true"
                     />
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
-                <div className="group flex cursor-pointer items-center rounded-md px-2 py-2 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                <div
+                  onClick={() => void signOut()}
+                  className="group flex cursor-pointer items-center rounded-md px-2 py-2 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
                   <HiLogout
                     className="mr-4 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                     aria-hidden="true"
@@ -263,7 +271,7 @@ export default function DashboardWrapper({
                         {userNavigation.map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
-                              <a
+                              <Link
                                 href={item.href}
                                 className={cn(
                                   active ? "bg-gray-100" : "",
@@ -271,12 +279,15 @@ export default function DashboardWrapper({
                                 )}
                               >
                                 {item.name}
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         ))}
                         <Menu.Item>
-                          <div className="group flex cursor-pointer items-center rounded-md px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                          <div
+                            onClick={() => void signOut()}
+                            className="group flex cursor-pointer items-center rounded-md px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                          >
                             Logout
                           </div>
                         </Menu.Item>

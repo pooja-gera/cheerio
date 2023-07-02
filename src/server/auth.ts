@@ -25,6 +25,18 @@ declare module "next-auth" {
   }
 }
 
+declare module "next-auth/jwt" {
+  interface JWT {
+    sub: string;
+    role: string;
+    picture: string;
+    email: string;
+    name: string;
+    iat: number;
+    exp: number;
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -37,6 +49,16 @@ export const authOptions: NextAuthOptions = {
         id: token.sub,
       },
     }),
+    jwt({ token, user }) {
+      if (user) {
+        token = {
+          ...token,
+          sub: user.id,
+          role: user.role,
+        };
+      }
+      return token;
+    },
   },
   pages: {
     signIn: "/auth/signin",
@@ -50,7 +72,10 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       type: "credentials",
       async authorize(credentials) {
-        const { email, password } = credentials as { email: string; password: string; };
+        const { email, password } = credentials as {
+          email: string;
+          password: string;
+        };
         if (!email || !password) {
           return null;
         } else {
@@ -60,7 +85,10 @@ export const authOptions: NextAuthOptions = {
           if (!user) {
             return null;
           } else {
-            const comparePassword = await bcrypt.compare(password, user.password);
+            const comparePassword = await bcrypt.compare(
+              password,
+              user.password
+            );
             if (!comparePassword) {
               return null;
             } else {
@@ -70,12 +98,12 @@ export const authOptions: NextAuthOptions = {
                 id: user.id,
                 role: user.role,
                 image: user.image,
-              }
+              };
             }
           }
         }
       },
-    })
+    }),
   ],
 };
 
