@@ -25,7 +25,11 @@ const usernav = [
   { name: "Settings", href: "/settings" },
 ];
 
-export default function DashboardWrapper() {
+export default function DashboardWrapper({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navigation, setNavigation] = useState(nav);
@@ -42,6 +46,8 @@ export default function DashboardWrapper() {
     });
     setNavigation(newnav);
   }, [router.pathname]);
+
+  const pageTitle = navigation.find((item) => item.current)?.name;
 
   return (
     <div className="flex h-screen overflow-hidden bg-white">
@@ -287,15 +293,19 @@ export default function DashboardWrapper() {
           <div className="py-6">
             <div className="px-4 sm:px-6 md:px-0">
               <h1 className="text-2xl font-semibold text-gray-900">
-                Dashboard
+                {pageTitle}
               </h1>
             </div>
             <div className="px-4 sm:px-6 md:px-0">
-              {/* Replace with your content */}
               <div className="py-4">
-                <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
+                {/* Replace with your content */}
+                {children ? (
+                  children
+                ) : (
+                  <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
+                )}
+                {/* /End replace */}
               </div>
-              {/* /End replace */}
             </div>
           </div>
         </main>

@@ -44,6 +44,7 @@ model User {
   image         String?
   password      String
   role          String
+  mobile        String?
   accounts      Account[]
   sessions      Session[]
   report        report[]

@@ -1,10 +1,18 @@
+import DashboardWrapper from "@/components/wrappers/Dashboard";
+import { getServerAuthSession } from "@/server/auth";
+import type {
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+  InferGetServerSidePropsType,
+} from "next";
+import { type Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { CgSpinner } from "react-icons/cg";
-import * as React from "react";
-import DashboardWrapper from "@/components/wrappers/Dashboard";
 
-export default function Dashboard() {
-  const { data: session, status, update } = useSession();
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+export default function Dashboard({ user }: Props) {
+  const { data: session, status } = useSession();
 
   if (status === "loading") {
     return (
@@ -26,3 +34,27 @@ export default function Dashboard() {
 
   return <DashboardWrapper />;
 }
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+): Promise<
+  GetServerSidePropsResult<{
+    user: Session;
+  }>
+> => {
+  const session = await getServerAuthSession(context);
+  if (session) {
+    return {
+      props: {
+        user: session,
+      },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
+  }
+};
